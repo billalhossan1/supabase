@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:supabase_app/controller/add_student_controller.dart';
 import 'package:supabase_app/custom_snackbar.dart';
 
+import 'snackbar.dart';
+
 class InputDialog {
   static Future<void> show(BuildContext context) {
     final TextEditingController nameController = TextEditingController();
@@ -90,18 +92,25 @@ class InputDialog {
                         await controller.addStudent(name, age, salary);
 
                         if (controller.isSuccess) {
-                          CustomSnackbar.show(
-                            title: 'Success',
-                            message: 'Student Added Successfully',
-                          );
-                          Navigator.pop(context);
-                        // } else if (controller.errorMessage != null) {
-                        //   CustomSnackbar.show(
-                        //     title: 'Error',
-                        //     message: controller.errorMessage!,
-                        //     isSuccess: false,
-                        //   );
-                         }
+                          Get.back();
+
+                          Future.delayed(Duration(milliseconds: 300), () {
+                            Snackbar.show(title: 'Success', message: 'Student Added Successfully');
+                          });
+
+                        } else if (controller.errorMessage != null) {
+                          Get.back();
+
+                          Future.delayed(Duration(milliseconds: 300), () {
+                            Get.snackbar(
+                              'Error',
+                              controller.errorMessage!,
+                              snackPosition: SnackPosition.BOTTOM,
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white,
+                            );
+                          });
+                        }
                       }
                     },
                     child: const Text('Add'),

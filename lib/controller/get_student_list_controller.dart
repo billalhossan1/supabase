@@ -20,7 +20,7 @@ class GetStudentListController extends GetxController {
       studentList.value =
           response.map<Student>((json) => Student.fromJson(json)).toList();
     } catch (e) {
-      print('Error fetching students: $e');
+      print('Error fetching student: $e');
     } finally {
       inProgress.value = false;
     }
